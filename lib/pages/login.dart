@@ -23,13 +23,13 @@ class _LoginPageState extends State<LoginPage> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF1E2349),
-              Color(0xFF6069A2),
+              Color.fromRGBO(24, 46, 146, 0.986),
+              Color.fromRGBO(51, 63, 117, 0.996),
+              Color.fromRGBO(10, 68, 255, 0.493)
             ],
           ),
         ),
         child: Column(
-          
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -72,6 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   margin: const EdgeInsets.symmetric(horizontal: 40),
                   child: const TextField(
+                      autofocus: true,
                       textAlignVertical: TextAlignVertical.top,
                       keyboardType: TextInputType.emailAddress,
                       cursorColor: Colors.white,
@@ -87,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                           border: InputBorder.none)),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 40),
+                  margin: EdgeInsets.only(left: 40, top: 10),
                   child: const Text(
                     "Password",
                     style: TextStyle(color: Color.fromRGBO(228, 228, 228, 1)),
@@ -100,6 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   margin: const EdgeInsets.symmetric(horizontal: 40),
                   child: TextField(
+                    autofocus: true,
                     textAlignVertical: TextAlignVertical.center,
                     obscureText: _obscureText,
                     focusNode: _focus,
@@ -130,9 +132,114 @@ class _LoginPageState extends State<LoginPage> {
                           TextStyle(color: Color.fromARGB(151, 255, 255, 255)),
                     ),
                   ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(right: 40, top: 10),
+                      child: Text(
+                        "Forget Password?",
+                        style:
+                            TextStyle(color: Color.fromRGBO(184, 184, 210, 1)),
+                      ),
+                    ),
+                  ],
+                ),
+                Center(
+                  child: Container(
+                    width: double.infinity, // Mengisi lebar layar
+                    margin: EdgeInsets.symmetric(
+                        horizontal:
+                            40), // Margin samping untuk memberikan jarak dari tepi layar
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                          Color.fromARGB(255, 0, 117, 212),
+                        ),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                      child: Text(
+                        "Log In",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don't have an account?",
+                      style:
+                          TextStyle(color: Color.fromARGB(255, 184, 184, 210)),
+                    ),
+                    SizedBox(height: 5),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LoginPage(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          "Sign up",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 )
               ],
             ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+              child: Row(
+                children: [
+                  Expanded(
+                      child: Divider(
+                          thickness: 1,
+                          color: Color.fromARGB(255, 184, 184, 210))),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      "Or login with",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 184, 184, 210),
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                      child: Divider(
+                          thickness: 1,
+                          color: Color.fromARGB(255, 184, 184, 210))),
+                ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('images/google_logo.png'),
+                SizedBox(
+                  width: 20,
+                ),
+                Image.asset('images/facebook_logo.png'),
+              ],
+            )
           ],
         ),
       ),
