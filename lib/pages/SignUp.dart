@@ -118,6 +118,7 @@ class _SignUp_pageState extends State<SignUp_page> {
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 25),
                 child: TextField(
+                  keyboardType: TextInputType.emailAddress,
                   autofocus: true,
                   textAlignVertical: TextAlignVertical.center,
                   focusNode: _focus,
@@ -192,6 +193,7 @@ class _SignUp_pageState extends State<SignUp_page> {
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 25),
                 child: TextField(
+                  keyboardType: TextInputType.phone,
                   autofocus: true,
                   textAlignVertical: TextAlignVertical.top,
                   focusNode: _focu_number,
