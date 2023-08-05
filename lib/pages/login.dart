@@ -152,7 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                       Container(
                         margin: EdgeInsets.only(right: 40, top: 10),
                         child: const Text(
-                          "Forget Password?",
+                          "Forgot Password?",
                           style: TextStyle(
                               color: Color.fromRGBO(184, 184, 210, 1)),
                         ),
