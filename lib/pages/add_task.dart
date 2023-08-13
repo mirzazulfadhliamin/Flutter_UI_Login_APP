@@ -27,14 +27,17 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   }
 
   void _addNote() {
-    Note newNote = Note(
-      _titleController.text,
-      _contentController.text,
-      DateTime.now(),
-      DateTime.now(),
-    );
+    if (_titleController.text.isNotEmpty &&
+        _contentController.text.isNotEmpty) {
+      Note newNote = Note(
+        _titleController.text,
+        _contentController.text,
+        DateTime.now(),
+        DateTime.now(),
+      );
 
-    Navigator.pop(context, newNote);
+      Navigator.pop(context, newNote);
+    }
   }
 
   @override
@@ -42,6 +45,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+      
         title: Text(
           'Add Task',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

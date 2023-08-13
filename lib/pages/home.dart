@@ -70,6 +70,7 @@ class _HomePageState extends State<HomePage> {
           : SafeArea(
               //ListView
               child: ListView.builder(
+                reverse: true,
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemCount: notes.length,
@@ -118,14 +119,17 @@ class _HomePageState extends State<HomePage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              //title
                               Text(
                                 note.title,
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.w500),
                               ),
+                              //content
                               Text(
                                 note.content,
                                 maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
                               SizedBox(
                                 height: 20,
