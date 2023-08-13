@@ -2,69 +2,62 @@ import 'package:flutter/material.dart';
 import 'package:login_page1/classes/note.dart';
 import 'package:intl/intl.dart';
 
-class AddTaskScreen extends StatefulWidget {
+class EditTask extends StatefulWidget {
+  final Note note;
+  EditTask({
+    super.key,
+    required this.note,
+  });
+
   @override
-  _AddTaskScreenState createState() => _AddTaskScreenState();
+  State<EditTask> createState() => _EditTaskState();
 }
 
-class _AddTaskScreenState extends State<AddTaskScreen> {
-  bool isInputNotEmpty = false;
+class _EditTaskState extends State<EditTask> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _contentController = TextEditingController();
 
   @override
-  void dispose() {
-    _titleController.dispose();
-    _contentController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    _titleController.text = widget.note.title;
+    _contentController.text = widget.note.content;
   }
 
-  void _updateInputState(String _) {
-    setState(() {
-      isInputNotEmpty = _titleController.text.trim().isNotEmpty ||
-          _contentController.text.trim().isNotEmpty;
-    });
-  }
+  void _edittask() {
+    if (_titleController.text.trim().isNotEmpty &&
+        _contentController.text.trim().isNotEmpty) {
+      Note newNote = Note(
+        _titleController.text,
+        _contentController.text,
+        DateTime.now(),
+        DateTime.now(),
+      );
 
-  void _addNote() {
-    if (!isInputNotEmpty) {
+      Navigator.pop(context, newNote);
+    } else {
       ScaffoldMessenger.of(context)
         ..removeCurrentSnackBar()
         ..showSnackBar(SnackBar(
-          content: Text('New note can not be empty'),
+          content: Text('Edited note can not be empty'),
           duration: Duration(milliseconds: 1000),
         ));
-      return;
     }
-
-    Note newNote = Note(
-      _titleController.text,
-      _contentController.text,
-      DateTime.now(),
-      DateTime.now(),
-    );
-
-    Navigator.pop(context, newNote);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text(
-          'Add Task',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        actions: [
-          Container(
-            margin: EdgeInsets.only(right: 25),
-            child: IconButton(
-              icon: Icon(Icons.check),
-              onPressed: _addNote,
-            ),
-          )
-        ],
+        title: Text("Edit Task"),
+        centerTitle: true,
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
+        onPressed: () {
+          _edittask();
+        },
+        child: Icon(Icons.check),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -81,7 +74,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 cursorColor: Colors.green,
                 maxLength: null,
                 controller: _titleController,
-                onChanged: _updateInputState,
                 decoration: const InputDecoration(
                   enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.transparent)),
@@ -125,3 +117,38 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     );
   }
 }
+
+
+/*body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextField(
+              controller: _titleController,
+              decoration: InputDecoration(labelText: 'Title'),
+            ),
+            SizedBox(height: 16),
+            TextField(
+              controller: _contentController,
+              decoration: InputDecoration(labelText: 'Content'),
+              maxLines: null,
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                Note editedNote = Note(
+                  _titleController.text,
+                  _contentController.text,
+                  widget.note.createdAt,
+                  DateTime.now(),
+                );
+
+                Navigator.pop(context, editedNote);
+              },
+              child: Text('Save Changes'),
+            ),
+          ],
+        ),
+      ),
+    ); */
