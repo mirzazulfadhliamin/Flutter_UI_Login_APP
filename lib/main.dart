@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:login_page1/pages/detail-page.dart';
+
 import 'package:login_page1/pages/login.dart';
 import 'package:login_page1/pages/spashscreen.dart';
 
@@ -18,7 +18,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
           // Define the default brightness and colors.
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue, brightness: Brightness.dark),
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.lightBlue, brightness: Brightness.dark),
 
           // Define the default font family.
           fontFamily: 'Georgia',
@@ -32,10 +33,6 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true),
       home: SplashScreen(),
-      routes: {
-        '/detail': (context) => detailPage(),
-      },
-
     );
   }
 }

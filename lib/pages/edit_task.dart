@@ -2,59 +2,58 @@ import 'package:flutter/material.dart';
 import 'package:login_page1/classes/note.dart';
 import 'package:intl/intl.dart';
 
-class AddTaskScreen extends StatefulWidget {
+class EditTask extends StatefulWidget {
+  final Note note;
+  EditTask({
+    super.key,
+    required this.note,
+  });
+
   @override
-  _AddTaskScreenState createState() => _AddTaskScreenState();
+  State<EditTask> createState() => _EditTaskState();
 }
 
-class _AddTaskScreenState extends State<AddTaskScreen> {
-  bool isInputNotEmpty = false;
-  TextEditingController _titleController = TextEditingController();
+class _EditTaskState extends State<EditTask> {
+  TextEditingController _titileController = TextEditingController();
   TextEditingController _contentController = TextEditingController();
 
   @override
-  void dispose() {
-    _titleController.dispose();
-    _contentController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    _titileController.text = widget.note.title;
+    _contentController.text = widget.note.content;
   }
 
-  void _updateInputState() {
-    setState(() {
-      isInputNotEmpty = _titleController.text.isNotEmpty ||
-          _contentController.text.isNotEmpty;
-    });
-  }
+  void _edittask() {
+    if (_titileController.text.isNotEmpty &&
+        _contentController.text.isNotEmpty) {
+      Note newNote = Note(
+        _titileController.text,
+        _contentController.text,
+        DateTime.now(),
+        DateTime.now(),
+      );
 
-  void _addNote() {
-    Note newNote = Note(
-      _titleController.text,
-      _contentController.text,
-      DateTime.now(),
-      DateTime.now(),
-    );
-
-    Navigator.pop(context, newNote);
+      Navigator.pop(context, newNote);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text(
-          'Add Task',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        title: Text("Edit Task"),
+        centerTitle: true,
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
+        onPressed: () {
+          _edittask();
+        },
+        child: const Text(
+          'SAVE',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
         ),
-        actions: [
-          Container(
-            margin: EdgeInsets.only(right: 25),
-            child: IconButton(
-              icon: Icon(Icons.check),
-              onPressed: _addNote,
-            ),
-          )
-        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -70,7 +69,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 style: TextStyle(fontSize: 20),
                 cursorColor: Colors.green,
                 maxLength: null,
-                controller: _titleController,
+                controller: _titileController,
                 decoration: const InputDecoration(
                   enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.transparent)),
@@ -114,3 +113,38 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     );
   }
 }
+
+
+/*body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextField(
+              controller: _titileController,
+              decoration: InputDecoration(labelText: 'Title'),
+            ),
+            SizedBox(height: 16),
+            TextField(
+              controller: _contentController,
+              decoration: InputDecoration(labelText: 'Content'),
+              maxLines: null,
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                Note editedNote = Note(
+                  _titileController.text,
+                  _contentController.text,
+                  widget.note.createdAt,
+                  DateTime.now(),
+                );
+
+                Navigator.pop(context, editedNote);
+              },
+              child: Text('Save Changes'),
+            ),
+          ],
+        ),
+      ),
+    ); */
