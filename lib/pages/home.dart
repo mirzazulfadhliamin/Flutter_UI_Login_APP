@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
         margin: EdgeInsets.all(20),
         child: FloatingActionButton(
           onPressed: () async {
-            Note newNote = await Navigator.push(
+            Note? newNote = await Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => AddTaskScreen()),
             );
@@ -98,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                       margin: EdgeInsets.only(left: 10, right: 10, top: 20),
                       child: InkWell(
                         onTap: () async {
-                          Note editNote = await Navigator.push(
+                          Note? editNote = await Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => EditTask(note: note),
