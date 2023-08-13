@@ -57,10 +57,7 @@ class _EditTaskState extends State<EditTask> {
         onPressed: () {
           _edittask();
         },
-        child: const Text(
-          'SAVE',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-        ),
+        child: Icon(Icons.check),
       ),
       body: SingleChildScrollView(
         child: Padding(
