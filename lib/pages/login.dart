@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login_page1/pages/home.dart';
 import 'package:login_page1/pages/signup.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,6 +16,13 @@ class _LoginPageState extends State<LoginPage> {
   FocusNode _focu = FocusNode();
 
   bool _obscureText = true;
+
+  @override
+  void dispose() {
+    _focu.dispose();
+    _focus.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,7 +174,12 @@ class _LoginPageState extends State<LoginPage> {
                           horizontal:
                               40), // Margin samping untuk memberikan jarak dari tepi layar
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
+                        },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
                             Color.fromARGB(255, 0, 117, 212),
