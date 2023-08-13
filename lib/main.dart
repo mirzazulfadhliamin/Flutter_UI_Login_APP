@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:login_page1/pages/detail-page.dart';
 import 'package:login_page1/pages/login.dart';
+import 'package:login_page1/pages/spashscreen.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -29,7 +31,11 @@ class MyApp extends StatelessWidget {
             bodyMedium: TextStyle(fontSize: 14, fontFamily: 'Hind'),
           ),
           useMaterial3: true),
-      home: const LoginPage(),
+      home: SplashScreen(),
+      routes: {
+        '/detail': (context) => detailPage(),
+      },
+
     );
   }
 }
