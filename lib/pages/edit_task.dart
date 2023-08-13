@@ -46,13 +46,13 @@ class _EditTaskState extends State<EditTask> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green,
+        backgroundColor: const Color.fromARGB(255, 33, 94, 35),
         onPressed: () {
           _edittask();
         },
         child: const Text(
           'SAVE',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
       body: SingleChildScrollView(
