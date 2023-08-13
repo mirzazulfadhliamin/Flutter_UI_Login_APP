@@ -14,27 +14,34 @@ class EditTask extends StatefulWidget {
 }
 
 class _EditTaskState extends State<EditTask> {
-  TextEditingController _titileController = TextEditingController();
+  TextEditingController _titleController = TextEditingController();
   TextEditingController _contentController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _titileController.text = widget.note.title;
+    _titleController.text = widget.note.title;
     _contentController.text = widget.note.content;
   }
 
   void _edittask() {
-    if (_titileController.text.isNotEmpty &&
-        _contentController.text.isNotEmpty) {
+    if (_titleController.text.trim().isNotEmpty &&
+        _contentController.text.trim().isNotEmpty) {
       Note newNote = Note(
-        _titileController.text,
+        _titleController.text,
         _contentController.text,
         DateTime.now(),
         DateTime.now(),
       );
 
       Navigator.pop(context, newNote);
+    } else {
+      ScaffoldMessenger.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(SnackBar(
+          content: Text('Edited note can not be empty'),
+          duration: Duration(milliseconds: 1000),
+        ));
     }
   }
 
@@ -69,7 +76,7 @@ class _EditTaskState extends State<EditTask> {
                 style: TextStyle(fontSize: 20),
                 cursorColor: Colors.green,
                 maxLength: null,
-                controller: _titileController,
+                controller: _titleController,
                 decoration: const InputDecoration(
                   enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.transparent)),
@@ -121,7 +128,7 @@ class _EditTaskState extends State<EditTask> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextField(
-              controller: _titileController,
+              controller: _titleController,
               decoration: InputDecoration(labelText: 'Title'),
             ),
             SizedBox(height: 16),
@@ -134,7 +141,7 @@ class _EditTaskState extends State<EditTask> {
             ElevatedButton(
               onPressed: () {
                 Note editedNote = Note(
-                  _titileController.text,
+                  _titleController.text,
                   _contentController.text,
                   widget.note.createdAt,
                   DateTime.now(),

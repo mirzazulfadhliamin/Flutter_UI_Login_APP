@@ -19,14 +19,24 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     super.dispose();
   }
 
-  void _updateInputState() {
+  void _updateInputState(String _) {
     setState(() {
-      isInputNotEmpty = _titleController.text.isNotEmpty ||
-          _contentController.text.isNotEmpty;
+      isInputNotEmpty = _titleController.text.trim().isNotEmpty ||
+          _contentController.text.trim().isNotEmpty;
     });
   }
 
   void _addNote() {
+    if (!isInputNotEmpty) {
+      ScaffoldMessenger.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(SnackBar(
+          content: Text('New note can not be empty'),
+          duration: Duration(milliseconds: 1000),
+        ));
+      return;
+    }
+
     Note newNote = Note(
       _titleController.text,
       _contentController.text,
@@ -71,6 +81,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 cursorColor: Colors.green,
                 maxLength: null,
                 controller: _titleController,
+                onChanged: _updateInputState,
                 decoration: const InputDecoration(
                   enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.transparent)),
