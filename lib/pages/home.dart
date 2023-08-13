@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:login_page1/classes/note.dart';
 import 'package:login_page1/pages/add_task.dart';
-import 'package:login_page1/pages/detail-page.dart';
+
+import 'dart:math';
 
 import 'package:login_page1/pages/edit_task.dart';
 
@@ -11,8 +12,40 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Note> notes = [];
+  List<Note> notes = [
+    Note(
+      'Pertemuan Hari Ini',
+      'Pembahasan rambut harus rapi.',
+      DateTime(2023, 8, 13, 10, 0),
+      DateTime(2023, 8, 13, 12, 0),
+    ),
+    Note(
+      'Idea Kreatif',
+      'Menemukan ide kreatif untuk kampanye Banteng merah.',
+      DateTime(2023, 8, 10, 15, 30),
+      DateTime(2023, 8, 11, 9, 45),
+    ),
+    Note(
+      'List Belanja',
+      'Telur, susu, roti, sayuran.',
+      DateTime(2023, 8, 9, 18, 0),
+      DateTime(2023, 8, 10, 8, 15),
+    ),
+    Note(
+      'Rencana Liburan',
+      'Destinasi: Pantai Indah. Persiapan: Tiket, penginapan.',
+      DateTime(2023, 7, 25, 16, 0),
+      DateTime(2023, 8, 2, 10, 30),
+    ),
+    Note(
+      'Presentasi Proyek',
+      'Persiapan untuk presentasi fluter besok.',
+      DateTime(2023, 8, 1, 9, 0),
+      DateTime(2023, 8, 1, 18, 0),
+    ),
+  ];
 
+  Random random = Random();
   @override
   void initState() {
     super.initState();
@@ -34,14 +67,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Notes",
           style: TextStyle(fontStyle: FontStyle.normal),
         ),
       ),
       //floatingActioinButton
       floatingActionButton: Container(
-        margin: EdgeInsets.all(20),
+        margin: const EdgeInsets.all(20),
         child: FloatingActionButton(
           onPressed: () async {
             Note? newNote = await Navigator.push(
@@ -56,7 +89,7 @@ class _HomePageState extends State<HomePage> {
             }
           },
           child: Icon(Icons.add),
-          backgroundColor: Colors.green,
+          backgroundColor: Color.fromARGB(255, 33, 94, 35),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -65,11 +98,12 @@ class _HomePageState extends State<HomePage> {
               child: Image.asset(
               'images/nonotes.png',
               height: 100,
-              color: Color.fromARGB(74, 255, 255, 255),
+              color: const Color.fromARGB(74, 255, 255, 255),
             ))
           : SafeArea(
               //ListView
               child: ListView.builder(
+                reverse: true,
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemCount: notes.length,
@@ -118,14 +152,17 @@ class _HomePageState extends State<HomePage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              //title
                               Text(
                                 note.title,
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.w500),
                               ),
+                              //content
                               Text(
                                 note.content,
                                 maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
                               SizedBox(
                                 height: 20,
@@ -140,6 +177,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 },
+                padding: EdgeInsets.only(bottom: 100),
               ),
             ),
     );

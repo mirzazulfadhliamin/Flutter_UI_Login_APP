@@ -77,6 +77,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               SizedBox(height: 10),
               //input title
               TextField(
+                keyboardType: TextInputType.text,
                 style: TextStyle(fontSize: 20),
                 cursorColor: Colors.green,
                 maxLength: null,
@@ -87,7 +88,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       borderSide: BorderSide(color: Colors.transparent)),
                   labelText: 'Title',
                   labelStyle: TextStyle(
-                    fontSize: 20,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 146, 146, 146),
                   ),

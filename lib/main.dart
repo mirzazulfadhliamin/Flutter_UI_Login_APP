@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:login_page1/pages/login.dart';
 import 'package:login_page1/pages/spashscreen.dart';
 
 void main() async {
@@ -8,30 +7,37 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
       theme: ThemeData(
-          // Define the default brightness and colors.
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.lightBlue, brightness: Brightness.dark),
-
-          // Define the default font family.
-          fontFamily: 'Georgia',
-
-          // Define the default `TextTheme`. Use this to specify the default
-          // text styling for headlines, titles, bodies of text, and more.
-          textTheme: const TextTheme(
-            displayLarge: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
-            titleLarge: TextStyle(fontSize: 36, fontStyle: FontStyle.normal),
-            bodyMedium: TextStyle(fontSize: 14, fontFamily: 'Hind'),
+        primaryColor: Color(0xFF795548), // Brown primary color
+        secondaryHeaderColor: Color(0xFFCDDC39), // Lime accent color
+        scaffoldBackgroundColor:
+            Color.fromARGB(255, 253, 245, 230), // Cream background color
+        primaryTextTheme: TextTheme(
+          bodyText1: TextStyle(color: Colors.black), // Warna teks utama
+          bodyText2: TextStyle(color: Colors.black), // Warna teks utama
+          headline6: TextStyle(color: Colors.black),
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF795548), // Brown app bar color
+          foregroundColor: Colors.white, // Warna teks app bar
+        ),
+        textTheme: TextTheme(
+          bodyText2: TextStyle(
+            fontSize: 16.0,
+            color: Colors.black87,
           ),
-          useMaterial3: true),
+        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Color(0xFF795548), // Brown FAB color
+        ),
+      ),
+      title: 'Flutter Demo',
       home: SplashScreen(),
     );
   }
