@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:login_page1/classes/note.dart';
 import 'package:login_page1/pages/add_task.dart';
 
@@ -12,38 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Note> notes = [
-    Note(
-      'Pertemuan Hari Ini',
-      'Pembahasan rambut harus rapi.',
-      DateTime(2023, 8, 13, 10, 0),
-      DateTime(2023, 8, 13, 12, 0),
-    ),
-    Note(
-      'Idea Kreatif',
-      'Menemukan ide kreatif untuk kampanye Banteng merah.',
-      DateTime(2023, 8, 10, 15, 30),
-      DateTime(2023, 8, 11, 9, 45),
-    ),
-    Note(
-      'List Belanja',
-      'Telur, susu, roti, sayuran.',
-      DateTime(2023, 8, 9, 18, 0),
-      DateTime(2023, 8, 10, 8, 15),
-    ),
-    Note(
-      'Rencana Liburan',
-      'Destinasi: Pantai Indah. Persiapan: Tiket, penginapan.',
-      DateTime(2023, 7, 25, 16, 0),
-      DateTime(2023, 8, 2, 10, 30),
-    ),
-    Note(
-      'Presentasi Proyek',
-      'Persiapan untuk presentasi fluter besok.',
-      DateTime(2023, 8, 1, 9, 0),
-      DateTime(2023, 8, 1, 18, 0),
-    ),
-  ];
+  var box = Hive.box("data");
 
   Random random = Random();
   @override
@@ -51,16 +22,21 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  void _addNewNote(Note newNote) {
-    setState(() {
-      notes.add(newNote);
-    });
+  void _addNewNote(Note newNote, Box box) async {
+    List<dynamic> dynamicNotes = box.get("notes", defaultValue: <Note>[]);
+    List<Note> notes = dynamicNotes.cast();
+    notes.add(newNote);
+    await box.put("notes", notes);
   }
 
-  void _removeTaskItem(int index) {
-    setState(() {
-      notes.removeAt(index);
+  void _removeTaskItem(int index, Box box) async {
+    List<dynamic> dynamicNotes = box.get("notes", defaultValue: <Note>[]);
+    List<Note> notes = dynamicNotes.cast();
+    notes.removeAt(index);
+    notes.forEach((element) {
+      print(element.title);
     });
+    await box.put("notes", notes);
   }
 
   @override
@@ -72,7 +48,6 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(fontStyle: FontStyle.normal),
         ),
       ),
-      //floatingActioinButton
       floatingActionButton: Container(
         margin: const EdgeInsets.all(20),
         child: FloatingActionButton(
@@ -84,7 +59,7 @@ class _HomePageState extends State<HomePage> {
 
             if (newNote != null) {
               setState(() {
-                _addNewNote(newNote);
+                _addNewNote(newNote, box);
               });
             }
           },
@@ -93,16 +68,17 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: notes.length <= 0
-          ? Center(
-              child: Image.asset(
-              'images/nonotes.png',
-              height: 100,
-              color: const Color.fromARGB(74, 255, 255, 255),
-            ))
-          : SafeArea(
-              //ListView
-              child: ListView.builder(
+      body: SafeArea(
+        //ListView
+        child: ValueListenableBuilder(
+          valueListenable: box.listenable(),
+          builder: (BuildContext context, value, Widget? child) {
+            List<dynamic> dynamicNotes =
+                value.get("notes", defaultValue: <Note>[]);
+            List<Note> notes = dynamicNotes.cast();
+
+            if (notes.isNotEmpty) {
+              return ListView.builder(
                 reverse: true,
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
@@ -114,9 +90,7 @@ class _HomePageState extends State<HomePage> {
                   return Dismissible(
                     key: Key(note.title),
                     onDismissed: (direction) {
-                      setState(() {
-                        notes.removeAt(count);
-                      });
+                      _removeTaskItem(count, value);
                     },
                     direction: DismissDirection.endToStart,
                     background: Container(
@@ -140,8 +114,8 @@ class _HomePageState extends State<HomePage> {
                           );
                           if (editNote != null) {
                             setState(() {
-                              _addNewNote(editNote);
-                              _removeTaskItem(count);
+                              _addNewNote(editNote, value);
+                              _removeTaskItem(count, value);
                             });
                           }
                         },
@@ -178,8 +152,18 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
                 padding: EdgeInsets.only(bottom: 100),
-              ),
-            ),
+              );
+            } else {
+              return Center(
+                  child: Image.asset(
+                'images/nonotes.png',
+                height: 100,
+                color: const Color.fromARGB(74, 255, 255, 255),
+              ));
+            }
+          },
+        ),
+      ),
     );
   }
 }

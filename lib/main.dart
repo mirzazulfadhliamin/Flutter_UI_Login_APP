@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:login_page1/classes/note.dart';
 
 import 'package:login_page1/pages/spashscreen.dart';
 
 void main() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(NoteAdapter());
+  await Hive.openBox("data");
   runApp(const MyApp());
 }
 
